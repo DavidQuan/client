@@ -80,7 +80,7 @@ export default (callback: (err: any) => void): void => {
       }
     }
 
-    fs.appendFileSync('/tmp/kbfs-error.txt', 'About to check errors: stdout=${stdoutResult}, stderr=${stderrResult}\n')
+    fs.appendFileSync('/tmp/kbfs-error.txt', `About to check errors: stdout=${stdoutResult}, stderr=${stderrResult}\n`)
     if (errorsResult.errors.length > 0) {
       fs.appendFileSync('/tmp/kbfs-error.txt', 'FOUND ERRORS\n')
       showError(errorsResult.errors, errorsResult.hasFUSEError || errorsResult.hasKBNMError, callback)
