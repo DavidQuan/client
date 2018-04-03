@@ -10,7 +10,7 @@ import {
   ExitCodeAuthCanceledError,
 } from '../../constants/favorite'
 import UserData from './user-data'
-import logger from '../../logger'
+import fs from 'fs'
 
 import type {InstallResult} from '../../constants/types/rpc-gen'
 
@@ -53,7 +53,7 @@ export default (callback: (err: any) => void): void => {
   }
   const args = ['--debug', 'install-auto', '--format=json', '--timeout=' + timeout + 's']
 
-  logger.info('About to install-auto')
+  fs.appendFileSync('/tmp/kbfs-error.txt', 'About to install-auto')
   exec(keybaseBin, args, 'darwin', 'prod', true, (err, attempted, stdout, stderr) => {
     let errorsResult: CheckErrorsResult = {
       errors: [],
@@ -78,9 +78,9 @@ export default (callback: (err: any) => void): void => {
       }
     }
 
-    logger.info('About to check errors: stdout=${stdout}, stderr=${stderr}')
+    fs.appendFileSync('/tmp/kbfs-error.txt', 'About to check errors: stdout=${stdout}, stderr=${stderr}')
     if (errorsResult.errors.length > 0) {
-      logger.info('FOUND ERRORS')
+      fs.appendFileSync('/tmp/kbfs-error.txt', 'FOUND ERRORS')
       showError(errorsResult.errors, errorsResult.hasFUSEError || errorsResult.hasKBNMError, callback)
       return
     }
