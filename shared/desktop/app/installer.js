@@ -53,7 +53,7 @@ export default (callback: (err: any) => void): void => {
   }
   const args = ['--debug', 'install-auto', '--format=json', '--timeout=' + timeout + 's']
 
-  fs.appendFileSync('/tmp/kbfs-error.txt', 'About to install-auto')
+  fs.appendFileSync('/tmp/kbfs-error.txt', 'About to install-auto\n')
   exec(keybaseBin, args, 'darwin', 'prod', true, (err, attempted, stdout, stderr) => {
     let errorsResult: CheckErrorsResult = {
       errors: [],
@@ -61,6 +61,8 @@ export default (callback: (err: any) => void): void => {
       hasFUSEError: false,
       hasKBNMError: false,
     }
+    let stdoutResult = stdout
+    let stderrResult = stderr
     if (err) {
       errorsResult.errors = [`There was an error trying to run the install (${err.code}).`]
     } else if (stdout !== '') {
@@ -78,9 +80,9 @@ export default (callback: (err: any) => void): void => {
       }
     }
 
-    fs.appendFileSync('/tmp/kbfs-error.txt', 'About to check errors: stdout=${stdout}, stderr=${stderr}')
+    fs.appendFileSync('/tmp/kbfs-error.txt', 'About to check errors: stdout=${stdoutResult}, stderr=${stderrResult}\n')
     if (errorsResult.errors.length > 0) {
-      fs.appendFileSync('/tmp/kbfs-error.txt', 'FOUND ERRORS')
+      fs.appendFileSync('/tmp/kbfs-error.txt', 'FOUND ERRORS\n')
       showError(errorsResult.errors, errorsResult.hasFUSEError || errorsResult.hasKBNMError, callback)
       return
     }
