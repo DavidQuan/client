@@ -52,6 +52,7 @@ export default (callback: (err: any) => void): void => {
   }
   const args = ['--debug', 'install-auto', '--format=json', '--timeout=' + timeout + 's']
 
+  console.log('About to install-auto')
   exec(keybaseBin, args, 'darwin', 'prod', true, (err, attempted, stdout, stderr) => {
     let errorsResult: CheckErrorsResult = {
       errors: [],
