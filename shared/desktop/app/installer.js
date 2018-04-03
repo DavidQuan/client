@@ -76,7 +76,9 @@ export default (callback: (err: any) => void): void => {
       }
     }
 
+    console.log('About to check errors: stdout=${stdout}, stderr=${stderr}')
     if (errorsResult.errors.length > 0) {
+      console.log('FOUND ERRORS')
       showError(errorsResult.errors, errorsResult.hasFUSEError || errorsResult.hasKBNMError, callback)
       return
     }
